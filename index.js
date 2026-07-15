@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -8,7 +9,7 @@ const { generateShortCode } = require('./utils/logic');
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/url');
+  await mongoose.connect(process.env.MONGODB_URI);
   console.log('database connected');
 }
 
@@ -71,6 +72,7 @@ app.get('/:shortCode', async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log('server is running on the port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`server is running on the port ${PORT}`);
 });
