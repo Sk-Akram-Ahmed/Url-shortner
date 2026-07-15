@@ -16,6 +16,7 @@ async function main() {
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'Views'));
+app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
@@ -39,7 +40,7 @@ app.post('/shorten', async (req, res) => {
 
     if (existingUrl) {
       return res.render('result.ejs', {
-        shortUrl: `http://localhost:3000/${existingUrl.shortCode}`
+        shortUrl: `${req.protocol}://${req.headers.host}/${existingUrl.shortCode}`
       });
     }
 
@@ -48,7 +49,7 @@ app.post('/shorten', async (req, res) => {
     await newUrl.save();
 
     res.render('result.ejs', {
-      shortUrl: `http://localhost:3000/${shortCode}`
+      shortUrl: `${req.protocol}://${req.headers.host}/${shortCode}`
     });
   } catch (err) {
     console.error(err);
