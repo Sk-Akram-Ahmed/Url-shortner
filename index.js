@@ -9,7 +9,7 @@ const { generateShortCode } = require('./utils/logic');
 main().catch(err => console.log(err));
 
 async function main() {
-  const dbUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/url';
+  const dbUri = process.env.MONGODB_URI;
   await mongoose.connect(dbUri);
   console.log('database connected');
 }
